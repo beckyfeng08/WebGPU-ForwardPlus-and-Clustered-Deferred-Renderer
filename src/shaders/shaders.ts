@@ -40,8 +40,12 @@ export const constants = {
 
 // =================================
 
+// function evalShaderRaw(raw: string) {
+//     return eval('`' + raw.replaceAll('${', '${constants.') + '`');
+// }
 function evalShaderRaw(raw: string) {
-    return eval('`' + raw.replaceAll('${', '${constants.') + '`');
+    const generator = new Function('constants', 'return `' + raw.replaceAll('${', '${constants.') + '`');   
+    return generator(constants);
 }
 
 const commonSrc: string = evalShaderRaw(commonRaw);
