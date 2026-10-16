@@ -4,7 +4,7 @@ WebGL Forward+ and Clustered Deferred Shading
 **University of Pennsylvania, CIS 565: GPU Programming and Architecture, Project 4**
 
 Rebecca Feng
-* Tested on: Version 155.0.8059.80 (Official Build) (arm64) on Apple M4 Max
+* Tested on: Google Chrome Version 155.0.8059.80 (Official Build) (arm64) on Apple M4 Max
 
 ### Live Demo
 
