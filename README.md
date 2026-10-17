@@ -11,8 +11,8 @@ Rebecca Feng
 [![Screenshot 2026-10-16 at 3 45 28 PM](https://github.com/user-attachments/assets/869fb519-0540-4748-a8fb-a35a56d8c050)](https://beckyfeng08.github.io/WebGPU-ForwardPlus-and-Clustered-Deferred-Renderer)
 
 ### Demo Video/GIF
+https://github.com/user-attachments/assets/838383f3-cdd7-4611-ba92-87dfd102c0fd
 
-[![](img/video.mp4)](TODO)
 
 ### Description
 This project implements a WebGL renderer that showcases clustered shading in forward and deferred rendering. Clustered shading essentially requires us to divide up our scene in a voxelized grid with respect to our camera view, and specify which lights "overlap" which which cells. When combined with forward shading, it allows us to consider only the lights closest to our current grid cell, and therefore provide the most amount of lighting contribution to that part of the scene. This yields a big boost in our performance, since we don't have to consider lights who don't "intersect" with the grid cell that would otherwise provide little to no contribution to the cell's final color output. With deferred shading, we can further improve performance by rendering out the normals, position, and albedo beforehand and use that information in the actual render pass to perform lighting calculations per pixel, instead of per fragment.
