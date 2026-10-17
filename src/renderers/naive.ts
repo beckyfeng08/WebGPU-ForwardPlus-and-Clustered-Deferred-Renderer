@@ -92,6 +92,7 @@ export class NaiveRenderer extends renderer.Renderer {
     }
 
     override draw() {
+        
         const encoder = renderer.device.createCommandEncoder();
         const canvasTextureView = renderer.context.getCurrentTexture().createView();
 

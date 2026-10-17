@@ -40,12 +40,18 @@ export class Camera {
     uniformsBuffer: GPUBuffer;
 
     projMat: Mat4 = mat4.create();
-    cameraPos: Vec3 = vec3.create(-7, 2, 0);
-    cameraFront: Vec3 = vec3.create(0, 0, -1);
-    cameraUp: Vec3 = vec3.create(0, 1, 0);
-    cameraRight: Vec3 = vec3.create(1, 0, 0);
-    yaw: number = 0;
-    pitch: number = 0;
+    // cameraPos: Vec3 = vec3.create(-7, 20, 0);
+    // cameraFront: Vec3 = vec3.create(0, 0, -1);
+    // cameraUp: Vec3 = vec3.create(0, 1, 0);
+    // cameraRight: Vec3 = vec3.create(1, 0, 0);
+    cameraPos: Vec3 = vec3.create(-10.6, 5.3,1);
+    cameraUp: Vec3 = vec3.create(0.511, 0.855364263057, -0.0823);
+    cameraRight: Vec3 = vec3.create(0.1590196, 0,0.98727542);
+    cameraFront: Vec3 = vec3.create(0.844480, -0.5, -0.1360);
+    yaw: number = -9;
+    pitch: number = -10;
+    // yaw: number = 0;
+    // pitch: number = 0;
     moveSpeed: number = 0.004;
     sensitivity: number = 0.15;
 
@@ -165,6 +171,7 @@ export class Camera {
         this.uniforms.screenY = canvas.height;
         this.uniforms.viewMat = viewMat;
         this.uniforms.invProjMat = mat4.inverse(this.projMat);
+
 
         // TODO-1.1: upload `this.uniforms.buffer` (host side) to `this.uniformsBuffer` (device side)
         // check `lights.ts` for examples of using `device.queue.writeBuffer()`
