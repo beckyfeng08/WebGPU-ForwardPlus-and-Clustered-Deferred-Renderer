@@ -62,8 +62,6 @@ We choose to graph on a log scale to underline the performance difference betwee
 Between Forward+ and Deferred shading, we clearly see that clustered deferred shading consistently outputs faster results. However, since deferred shading's main advantage is that it alleviates the number of draw calls needed and does best for scenes with high complexity/large amounts of geometry we may see little difference between Forward+ and Deferred shading methods otherwise - if not, forward+ shading performing better due to the overhead needed to write to the gbuffers in the prepass.
 
 
-#### Cluster Dimensions
-
 ### Credits
 
 - [Vite](https://vitejs.dev/)
