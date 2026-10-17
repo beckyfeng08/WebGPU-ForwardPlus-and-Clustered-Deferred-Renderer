@@ -111,9 +111,11 @@ export abstract class Renderer {
     private prevTime: number = 0;
     private frameRequestId: number;
 
-    private frameTimes: number[] = [];
-    private readonly frameWindow = 200;
-    private timingEl: HTMLDivElement = Renderer.getTimingElement();
+    private aveTime: number = 0;
+    private count: number = 0;
+    private warmupFrames: number = 30;
+    private sampleFrames: number = 200;
+    private printed: boolean = false;
 
     constructor(stage: Stage) {
         this.scene = stage.scene;
@@ -132,50 +134,40 @@ export abstract class Renderer {
 
     // CHECKITOUT: this is the main rendering loop
     private onFrame(time: number) {
-        if (this.prevTime == 0) {
-            this.prevTime = time;
-        }
-
-        let deltaTime = time - this.prevTime;
-        this.camera.onFrame(deltaTime);
-        this.lights.onFrame(time);
-
-        this.stats.begin();
-
-        const t0 = performance.now();
-        this.draw();
-        device.queue.onSubmittedWorkDone().then(() => {
-            if (this.frameTimes.length >= this.frameWindow) {
-                return;
-            }
-
-            this.frameTimes.push(performance.now() - t0);
-            const avg = this.frameTimes.reduce((a, b) => a + b, 0) / this.frameTimes.length;
-            this.timingEl.textContent = `frame: ${avg.toFixed(2)} ms [n=${this.frameTimes.length}]`;
-        });
-
-        this.stats.end();
-
+    if (this.prevTime == 0) {
         this.prevTime = time;
-        this.frameRequestId = requestAnimationFrame((t) => this.onFrame(t));
     }
 
-    private static getTimingElement(): HTMLDivElement {
-        let el = document.getElementById('frame-timing') as HTMLDivElement | null;
-        if (!el) {
-            el = document.createElement('div');
-            el.id = 'frame-timing';
-            Object.assign(el.style, {
-                position: 'fixed', top: '50px', left: '0', padding: '4px 8px',
-                background: 'rgba(0,0,0,0.7)', color: '#0f0',
-                font: '12px monospace', zIndex: '10000', pointerEvents: 'none',
-            });
-            document.body.appendChild(el);
+    let deltaTime = time - this.prevTime;
+    this.camera.onFrame(deltaTime);
+    this.lights.onFrame(time);
+
+    this.stats.begin();
+    const timeBefore = performance.now();
+    this.draw();
+    this.stats.end();
+
+    // wait for the GPU to actually finish this frame's work
+    device.queue.onSubmittedWorkDone().then(() => {
+        if (this.printed) return;
+
+        const ms = performance.now() - timeBefore;
+
+        if (this.warmupFrames > 0) {
+            this.warmupFrames--;
+            return;
         }
-        return el;
-    }
 
-    resetTiming(): void {
-        this.frameTimes = [];
-    }
+        this.count++;
+        this.aveTime += (ms - this.aveTime) / this.count;
+
+        if (this.count >= this.sampleFrames) {
+            console.log("Average ms per frame:", this.aveTime);
+            this.printed = true;
+        }
+    });
+
+    this.prevTime = time;
+    this.frameRequestId = requestAnimationFrame((t) => this.onFrame(t));
+}
 }

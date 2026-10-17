@@ -6,8 +6,8 @@ WebGL Forward+ and Clustered Deferred Shading
 Rebecca Feng
 * Tested on: Google Chrome Version 155.0.8059.80 (Official Build) (arm64) on Apple M4 Max
 
-### Live Demo
-
+### Live Demo (click the image below)
+[![clickme](./img/clickbait.jpg)](https://beckyfeng08.github.io/WebGPU-ForwardPlus-and-Clustered-Deferred-Renderer)
 [![Screenshot 2026-10-16 at 3 45 28 PM](https://github.com/user-attachments/assets/869fb519-0540-4748-a8fb-a35a56d8c050)](https://beckyfeng08.github.io/WebGPU-ForwardPlus-and-Clustered-Deferred-Renderer)
 
 ### Demo Video/GIF
@@ -60,7 +60,6 @@ We choose to graph on a log scale to underline the performance difference betwee
 
 Between Forward+ and Deferred shading, we clearly see that clustered deferred shading consistently outputs faster results. However, since deferred shading's main advantage is that it alleviates the number of draw calls needed and does best for scenes with high complexity/large amounts of geometry we may see little difference between Forward+ and Deferred shading methods otherwise - if not, forward+ shading performing better due to the overhead needed to write to the gbuffers in the prepass.
 
-As mentioned before, the greater the number of lights, the more prone we are to seeing grid artifacts. 
 
 #### Cluster Dimensions
 
